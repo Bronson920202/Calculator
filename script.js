@@ -1,6 +1,18 @@
-var val1 = 100;
-var val2 = 200;
-var oper = "*";
+const allButtons = document.querySelectorAll('.buttons');
+const screen = document.querySelector('#screen');
+const equalButton = document.querySelector('#equal');
+const arrayWithButtons = Array.from(allButtons);
+
+var input = [];
+
+arrayWithButtons.forEach(button => {
+    button.addEventListener('click', userInputs);
+});
+equalButton.removeEventListener('click', userInputs);
+equalButton.addEventListener('click', userInputs);
+
+
+
 
 
 
@@ -26,4 +38,14 @@ const operate = function (value1, operator, value2){
     if(operator === "/"){return divide(value1, value2)}
 }
 // create a function to display input on calculator screen
+function displayNumbers(){
+    screen.textContent = input;
+}
+
 //function to store inputs from user
+function userInputs() {
+    input.push(this.textContent);
+
+    displayNumbers();
+
+}
