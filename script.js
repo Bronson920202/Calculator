@@ -12,10 +12,18 @@ const arrayWithAllButtons = Array.from(allButtons);
 const arrayWithNumberButtons = Array.from(allNumberButtons);
 const arrayWithOperators = Array.from(allOperatorButtons);
 
-var inputLine1 = [];
+
+var inputLineIndex = 1; 
+var inputObjects = {
+
+    1 : [],
+}; 
 
 arrayWithAllButtons.forEach(button => {
     button.addEventListener('click', userInputs);
+});
+arrayWithOperators.forEach(button => {
+    button.addEventListener('click', createNewArray);
 });
 equalButton.addEventListener('click', operate);
 clearButton.addEventListener('click', clearAll);
@@ -50,20 +58,33 @@ function displayNumbers(array) {
 }
 
 //function to store inputs from user
-function userInputs() {
-    if (inputLine1.length >= 20) return;
-    inputLine1.push(this.textContent);
+function userInputs(index) {
+    if (inputObjects["1"].length >= 20) return;
+    inputObjects["1"].push(this.textContent);
 
-    displayNumbers(inputLine1);
+    displayNumbers(inputObjects["1"]);
 
 }
 
 function clearAll() {
-    inputLine1.length = 0;
+    for(obj in inputObjects){
+        if(inputObjects.hasOwnProperty(obj)){
+            delete inputObjects[obj];
+        }
+    }
+    inputLineIndex = 0;
     screenPara.textContent = "";
+    createNewArray();
 }
 
-function deleteLastNumber(array) {
-   inputLine1.pop();
-   return displayNumbers(inputLine1);
+function deleteLastNumber() {
+    inputObjects["1"].pop();
+   return displayNumbers(inputObjects["1"]);
+}
+
+function createNewArray() {
+    inputLineIndex++;
+    const convertToString = inputLineIndex.toString();
+    inputObjects[convertToString] = [];
+    console.log(inputObjects);
 }
