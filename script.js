@@ -13,8 +13,9 @@ const arrayWithNumberButtons = Array.from(allNumberButtons);
 const arrayWithOperators = Array.from(allOperatorButtons);
 
 
-var inputLineIndex = 0; 
+var inputLineIndex = 0;
 var inputArray = [];
+
 
 arrayWithNumberButtons.forEach(button => {
     button.addEventListener('click', userInputs);
@@ -22,44 +23,43 @@ arrayWithNumberButtons.forEach(button => {
 arrayWithOperators.forEach(button => {
     button.addEventListener('click', nextPosInArray);
 });
-// equalButton.addEventListener('click', operate);
+equalButton.addEventListener('click', operate);
 clearButton.addEventListener('click', clearAll);
 deleteButton.addEventListener('click', deleteLastNumber);
-
-
-
-
-// const add = (initialValue, valueToAdd) => initialValue + valueToAdd;
-// const sub = (initialValue, valueToAdd) => initialValue - valueToAdd;
-// const multiply = (initialValue, valueToAdd) => initialValue * valueToAdd;
-// const divide = (initialValue, valueToAdd) => initialValue / valueToAdd;
 
 //Create a new function operate that takes an operator and 2 numbers
 // and then calls one of the above functions on the numbers.
 
-// function operate(value1, operator, value2) {
+function operate() {
+    let operators = inputArray.filter((item) => item.match(/[\+\-*\/]/) ? true : false);
+    let arrayOfNumbers = inputArray.filter((item) => item.match(/[0-9]/) ? true : false);
+    let sum = 0;
+    let operatorIndex = -1;
 
-//     if (operator === "+") { return add(value1, value2) }
-//     if (operator === "-") { return sub(value1, value2) }
-//     if (operator === "*") { return multiply(value1, value2) }
-//     if (operator === "/") { return divide(value1, value2) }
-// }
+    for (let i = 0; i < arrayOfNumbers.length; i++) {
+        if (operators[operatorIndex] === "+" || operators[operatorIndex] === undefined) { sum += parseInt(arrayOfNumbers[i]);}
+        if (operators[operatorIndex] === "-") { sum -= parseInt(arrayOfNumbers[i]);}    
+        if (operators[operatorIndex] === "*") { sum *= parseInt(arrayOfNumbers[i]);}
+        if (operators[operatorIndex] === "/") { sum /= parseInt(arrayOfNumbers[i]);}
+        operatorIndex++;
+    }
+    return console.log(sum);
+}
 // create a function to display input on calculator screen
 
 //TODO
 //loop thrue all propertys in object and display.
 const displayNumbers = (array => screenPara.textContent = array.join(""));
 
-function createArrayElementFromInput(buttonValue){
-   
-    if(inputArray[inputLineIndex] === undefined){
+function createArrayElementFromInput(buttonValue) {
+    if (inputArray[inputLineIndex] === undefined) {
         inputArray.push(buttonValue);
     }
     else {
         const newElementValue = inputArray[inputLineIndex] + buttonValue;
         inputArray[inputLineIndex] = newElementValue;
     }
-} 
+}
 
 //function to store inputs from user
 function userInputs() {
@@ -68,7 +68,8 @@ function userInputs() {
 }
 
 function clearAll() {
-    inputArray.length = 0;
+    inputArray.length = 1;
+    inputArray[0] = 0;
     inputLineIndex = 0;
     screenPara.textContent = "";
     nextPosInArray();
@@ -77,28 +78,23 @@ function clearAll() {
 function deleteLastNumber() {
 
     let lastElementValue = [...inputArray[inputLineIndex]];
-    if(lastElementValue.length <= 0 && inputArray.length !== 1){ 
+    if (lastElementValue.length <= 0 && inputArray.length !== 1) {
         inputArray.pop();
         inputArray.pop();
-        inputLineIndex = inputLineIndex - 2; 
+        inputLineIndex = inputLineIndex - 2;
         displayNumbers(inputArray);
     }
     else {
         lastElementValue.pop();
-    inputArray[inputLineIndex] = lastElementValue.join("");
-    displayNumbers(inputArray);
+        inputArray[inputLineIndex] = lastElementValue.join("");
+        displayNumbers(inputArray);
     }
-    
-
-    
-    
 }
 
 function nextPosInArray() {
-    
+
     inputLineIndex++;
     inputArray.push(this.textContent);
     displayNumbers(inputArray);
     inputLineIndex++;
-    console.log(inputArray);
 };
