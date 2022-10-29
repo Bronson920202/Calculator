@@ -51,7 +51,13 @@ function operate() {
 //TODO
 //loop thrue all propertys in object and display.
 const displayNumbers = function (array) {
-    screenPara.textContent = array.join("");
+    if(Array.isArray(array)){
+        screenPara.textContent = array.join("");
+    }
+    else{
+        screenPara.textContent = array;
+    }
+    
 } 
 
 function createArrayElementFromInput(buttonValue) {
