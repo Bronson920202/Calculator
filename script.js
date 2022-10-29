@@ -43,13 +43,16 @@ function operate() {
         if (operators[operatorIndex] === "/") { sum /= parseInt(arrayOfNumbers[i]);}
         operatorIndex++;
     }
+    displayNumbers(sum);
     return console.log(sum);
 }
 // create a function to display input on calculator screen
 
 //TODO
 //loop thrue all propertys in object and display.
-const displayNumbers = (array => screenPara.textContent = array.join(""));
+const displayNumbers = function (array) {
+    screenPara.textContent = array.join("");
+} 
 
 function createArrayElementFromInput(buttonValue) {
     if (inputArray[inputLineIndex] === undefined) {
@@ -68,11 +71,11 @@ function userInputs() {
 }
 
 function clearAll() {
-    inputArray.length = 1;
-    inputArray[0] = 0;
-    inputLineIndex = 0;
-    screenPara.textContent = "";
-    nextPosInArray();
+    window.location.reload(false);
+    // inputArray = [];
+    // inputLineIndex = 0;
+    // screenPara.textContent = "";
+    // nextPosInArray();
 }
 
 function deleteLastNumber() {
@@ -92,7 +95,7 @@ function deleteLastNumber() {
 }
 
 function nextPosInArray() {
-
+    if(inputArray[inputLineIndex].match(/[\+\-*\/]/)) return;
     inputLineIndex++;
     inputArray.push(this.textContent);
     displayNumbers(inputArray);
